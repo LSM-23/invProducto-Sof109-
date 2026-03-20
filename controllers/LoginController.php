@@ -1,21 +1,32 @@
 <?php
-//Recibir datos del formulario de login
+// session_start() es obligatorio en la primera línea para poder usar sesiones
+session_start(); 
+
+// Recibiendo datos del formulario de login
 $usuario = $_POST['usuario'] ?? '';
 $password = $_POST['password'] ?? '';
 
-//Simular verificación (No olvides cambiar por consulta a base de datos)
-if ($usuario === 'admin' && $password === '12345') {
-    //Si es correcto, redirigir al dashboard
-    //Pasamos el rol por la url temporariamente (no olvidar implementar sesiones)
-    header('Location: ../views/dashboard.php?rol=admin');
-    exit();
-} else if ($usuario === 'cliente' && $password === '1234') {
-    header('Location: ../views/dashboard.php?rol=cliente');
-    exit();
-} else {
-    //Si es incorrecto, redirigir al login con error GET
-    header('Location: ../index.php?error=1');
-    exit();
-} 
+// Simulamos la verificación
+if ($usuario === 'admin' && $password === '1234') {
+    
+    // Guardamos los datos en la sesión del servidor de forma segura
+    $_SESSION['usuario'] = 'Administrador';
+    $_SESSION['rol'] = 'admin';
+    
+    // Redirigimos al dashboard sin enviar variables por la URL
+    header('Location: ../views/dashboard.php');
+    exit;
 
+} else if ($usuario === 'cliente' && $password === '1234') {
+    
+    $_SESSION['usuario'] = 'Cliente Invitado';
+    $_SESSION['rol'] = 'cliente';
+    
+    header('Location: ../views/dashboard.php');
+    exit;
+
+} else {
+    header('Location: ../index.php?error=1');
+    exit;
+}
 ?>

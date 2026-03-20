@@ -1,7 +1,18 @@
 <?php
-//Reciviendo rol temporariamente por GET (no olvidar implementar sesiones)
-$rol = $_GET['rol'] ?? 'cliente';
+session_start();
+
+// Si no existe la variable de sesión 'rol' (es decir, si alguien intenta entrar directo por la URL)
+if (!isset($_SESSION['rol'])) {
+    // Lo expulsamos de vuelta al login
+    header('Location: ../index.php');
+    exit;
+}
+
+// Leemos el rol y el nombre directamente desde la sesión segura
+$rol = $_SESSION['rol'];
+$nombreUsuario = $_SESSION['usuario'];
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,8 +26,8 @@ $rol = $_GET['rol'] ?? 'cliente';
         <div class="container">
             <a class="navbar-brand" href="#">Mi inventario</a>
             <div class="d-flex text-white align-items-center">
-                <span class="me-3">Rol: <strong><?php echo htmlspecialchars($rol); ?></strong></span>
-                <a href="../index.php" class="btn btn-outline-light btn-sm">Cerrar sesión</a>
+                <span class="me-3">Hola, <strong><?php echo htmlspecialchars($nombreUsuario); ?></strong> (<?php echo htmlspecialchars($rol); ?>)</span>
+                <a href="../controllers/LogoutController.php" class="btn btn-outline-light btn-sm">Cerrar Sesión</a>
             </div>
         </div>
     </nav>
