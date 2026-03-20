@@ -57,8 +57,14 @@ $rol = $_GET['rol'] ?? 'cliente';
                             <td>Laptop de alta gama</td>
                             <?php if ($rol === 'admin'): ?>
                                 <td>
-                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</button>
-                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarProducto">Eliminar</button>
+                                <button class="btn btn-warning btn-sm btn-editar" data-bs-toggle="modal" data-bs-target="#modalEditarProducto"
+                                        data-id="1"
+                                        data-nombre="Laptop Gamer"
+                                        data-precio="1500.00"
+                                        data-cantidad="10"
+                                        data-descripcion="Laptop de alto rendimiento">
+                                Editar</button>
+                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarProducto" data-id="1">Eliminar</button>
                                 </td>
                             <?php endif; ?>
                         </tr>

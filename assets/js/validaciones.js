@@ -48,4 +48,25 @@ $(document).ready(function() {
         validarProducto(evento, '#editarNombre', '#editarPrecio', '#editarCantidad', '#errorModalEditar');
     });
 
+    // ---------------------------------------------------------
+    // EVENTO PARA CARGAR LOS DATOS EN EL MODAL DE EDITAR
+    // ---------------------------------------------------------
+    $('.btn-editar').on('click', function() {
+        
+        // $(this) es una herramienta de jQuery que se refiere exactamente al botón específico que el usuario acaba de presionar
+        // .data() es la función que lee la información invisible que guardamos en los atributos HTML
+        let id = $(this).data('id');
+        let nombre = $(this).data('nombre');
+        let precio = $(this).data('precio');
+        let cantidad = $(this).data('cantidad');
+        let descripcion = $(this).data('descripcion');
+
+        // Tomamos esa información y rellenamos (.val) los campos del modal de Editar
+        $('#editarId').val(id);
+        $('#editarNombre').val(nombre);
+        $('#editarPrecio').val(precio);
+        $('#editarCantidad').val(cantidad);
+        $('#editarDescripcion').val(descripcion);
+    });
+
 });
