@@ -57,8 +57,8 @@ $rol = $_GET['rol'] ?? 'cliente';
                             <td>Laptop de alta gama</td>
                             <?php if ($rol === 'admin'): ?>
                                 <td>
-                                    <button class="btn btn-sm btn-warning btn-sm">Editar</button>
-                                    <button class="btn btn-sm btn-warning btn-sm">Eliminar</button>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditarProducto">Editar</button>
+                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarProducto">Eliminar</button>
                                 </td>
                             <?php endif; ?>
                         </tr>
@@ -69,6 +69,8 @@ $rol = $_GET['rol'] ?? 'cliente';
     </div>
 
 <?php include_once 'modals/agregar_producto.php'; ?>
+<?php include_once 'modals/editar_producto.php'; ?>
+<?php include_once 'modals/eliminar_producto.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Validaciones de Javascrip -->

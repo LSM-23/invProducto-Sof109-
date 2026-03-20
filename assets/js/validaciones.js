@@ -1,44 +1,51 @@
-// $(document).ready() espera a que todo el HTML termine de cargar
+/* global $ */
+
 $(document).ready(function() {
+    
+    // Creamos una función reutilizable que recibe los IDs específicos de cada formulario
+    function validarProducto(evento, idNombre, idPrecio, idCantidad, idError) {
+        // Obtenemos los valores usando los IDs que nos pasen como parámetros
+        let nombre = $(idNombre).val().trim();
+        let precioTexto = $(idPrecio).val().trim();
+        let cantidadTexto = $(idCantidad).val().trim();
         
-        // Capturamos el evento de envío (submit)
-        $('#formProducto').on('submit', function(evento) {
+        let $errorDiv = $(idError); 
+        
+        // 1. PRIMERA VALIDACIÓN: Campos vacíos
+        if (nombre === '' || precioTexto === '' || cantidadTexto === '') {
+            evento.preventDefault(); 
+            $errorDiv.text('Por favor, completa todos los campos obligatorios (*).').removeClass('d-none');
+            return; // Detenemos la ejecución aquí
+        }
 
-            // Guardamos el contenedor del error en una variable
-            let $errorDiv = $('#errorModal');
+        let precio = parseFloat(precioTexto);
+        let cantidad = parseInt(cantidadTexto);
+        
+        // 2. SEGUNDA VALIDACIÓN: Números negativos
+        if (precio < 0 || cantidad < 0) {
+            evento.preventDefault(); 
+            $errorDiv.text('El precio y la cantidad no pueden ser números negativos.').removeClass('d-none');
+            return; // Detenemos la ejecución aquí
+        } 
+        
+        // Si todo está correcto, ocultamos el error
+        $errorDiv.addClass('d-none');
+    }
 
-            // Obtenemos los textos exactos de los campos y limpiamos espacios
-            let nombre = $('#nombre').val().trim();
-            let precioTexto = $('#precio').val().trim();
-            let cantidadTexto = $('#cantidad').val().trim();
-            
-            //Validando campos vacíos (Required)
-            if (nombre === '' || precioTexto === '' || cantidadTexto === '') {
-                
-                // Detenemos el envío
-                evento.preventDefault(); 
-                
-                // Mostramos el error
-                $errorDiv.text('Por favor, completa todos los campos obligatorios (*).').removeClass('d-none');
-                
-                // Usamos return para detener la lectura del código aquí mismo y que no siga evaluando lo demás
-                return; 
-            }
+    // ---------------------------------------------------------
+    // EVENTOS DE LOS FORMULARIOS
+    // ---------------------------------------------------------
 
-            // Obtenemos los valores de los campos usando .val()
-            let precio = parseFloat($('#precio').val());
-            let cantidad = parseInt($('#cantidad').val());
-            
-            // Validamos que no sean negativos
-            if (precio < 0 || cantidad < 0) {
-                // Prevenimos que el formulario se envíe al servidor
-                evento.preventDefault(); 
-                
-                // Agregamos el texto del error y quitamos la clase que lo oculta (.removeClass)
-                $errorDiv.text('El precio y la cantidad no pueden ser números negativos.').removeClass('d-none');
-                return;
-            }
-            // Si todo está bien, volvemos a ocultar el error (.addClass)
-            $errorDiv.addClass('d-none');
-        });
+    // 1. Cuando se envíe el formulario de AGREGAR
+    $('#formProducto').on('submit', function(evento) {
+        // Llamamos a la función pasándole los IDs del modal de Agregar
+        validarProducto(evento, '#nombre', '#precio', '#cantidad', '#errorModal');
+    });
+
+    // 2. Cuando se envíe el formulario de EDITAR
+    $('#formEditarProducto').on('submit', function(evento) {
+        // Llamamos a la misma función, pero con los IDs del modal de Editar
+        validarProducto(evento, '#editarNombre', '#editarPrecio', '#editarCantidad', '#errorModalEditar');
+    });
+
 });
