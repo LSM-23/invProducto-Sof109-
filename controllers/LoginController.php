@@ -5,6 +5,7 @@ session_start();
 // Recibiendo datos del formulario de login
 $usuario = $_POST['usuario'] ?? '';
 $password_ingresada = $_POST['password'] ?? '';
+
 //------------------------------------------------------------------------------------
 //Preparando hash de la contraseña (en un caso real, esto buscaría en la base de datos)
 //-------------------------------------------------------------------------------------
