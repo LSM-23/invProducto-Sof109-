@@ -3,18 +3,27 @@
 session_start(); 
 
 // Recibiendo datos del formulario de login
-$usuario = $_POST['usuario'] ?? '';
-$password_ingresada = $_POST['password'] ?? '';
+$usuario = trim($_POST['usuario'] ?? '');
+$password_ingresada = trim($_POST['password'] ?? '');
+
+//VALIDACIÓN PHP: Verificamos que no envíen campos vacíos
+if (empty($usuario) || empty($password_ingresada)) {
+    $_SESSION['mensaje_error'] = "Por favor, ingresa tu usuario y contraseña.";
+    header('Location: ../index.php');
+    exit;
+}
 
 //------------------------------------------------------------------------------------
 //Preparando hash de la contraseña (en un caso real, esto buscaría en la base de datos)
 //-------------------------------------------------------------------------------------
 
-$password_hash_admin = password_hash($password_ingresada, PASSWORD_DEFAULT);
-$password_hash_user = password_hash($password_ingresada, PASSWORD_DEFAULT);
+$password_hash_admin = password_hash('1234', PASSWORD_ARGON2ID);
+$password_hash_user = password_hash('1234', PASSWORD_ARGON2ID);
 
 // Simulamos la verificación
-if ($usuario === 'admin' && password_verify($password_ingresada, $password_hash_admin)) {
+if ($usuario === 'admin' ) {
+// Verificamos la contraseña usando password_verify()
+if ( password_verify($password_ingresada, $password_hash_admin)) {
     
     // Guardamos los datos en la sesión del servidor de forma segura
     $_SESSION['usuario'] = 'Administrador';
@@ -23,17 +32,31 @@ if ($usuario === 'admin' && password_verify($password_ingresada, $password_hash_
     // Redirigimos al dashboard sin enviar variables por la URL
     header('Location: ../views/dashboard.php');
     exit;
-
-} else if ($usuario === 'cliente' && password_verify($password_ingresada, $password_hash_user)) {
+    } else {
+        // La contraseña falló
+        $_SESSION['mensaje_error'] = "Usuario o contraseña incorrectos.";
+        header('Location: ../index.php');
+        exit;
+    }
+} else if ($usuario === 'cliente') {
+    if (password_verify($password_ingresada, $password_hash_user)) {
     
     $_SESSION['usuario'] = 'Cliente Invitado';
     $_SESSION['rol'] = 'cliente';
     
     header('Location: ../views/dashboard.php');
     exit;
+    } else {
+        // La contraseña falló
+        $_SESSION['mensaje_error'] = "Usuario o contraseña incorrectos.";
+        header('Location: ../index.php');
+        exit;
+    }
 
 } else {
-    header('Location: ../index.php?error=1');
+    //NUEVO MANEJO DE ERROR: Usamos nuestra alerta flotante en vez de ?error=1
+    $_SESSION['mensaje_error'] = "Usuario o contraseña incorrectos.";
+    header('Location: ../index.php');
     exit;
 }
 ?>

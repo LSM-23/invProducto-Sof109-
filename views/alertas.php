@@ -1,4 +1,4 @@
-<div class="position-fixed top-0 end-0 p-4 mt-5" style="z-index: 1055;">
+<div class="position-fixed top-0 end-5 p-4 mt-5" style="z-index: 1055;">
 <?php if (isset($_SESSION['mensaje_error'])): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?php 

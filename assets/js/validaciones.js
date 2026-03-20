@@ -69,4 +69,22 @@ $(document).ready(function() {
         $('#editarDescripcion').val(descripcion);
     });
 
+
+    //-----------------------------
+    // Pulsas Enter, saltas de campo
+    //-----------------------------
+    $('form input').on('keydown', function(evento) {
+        if (evento.key === 'Enter') {
+            evento.preventDefault(); // Evita que el formulario se envíe al pulsar Enter
+            
+            // Encuentra el siguiente campo de entrada dentro del mismo formulario
+            let campos = $(this).closest('form').find('input');
+            let posicion_actual = campos.index(this);
+            if (posicion_actual < campos.length - 1) {
+                campos.eq(posicion_actual + 1).focus(); // Mueve el foco al siguiente campo
+            } else {
+                 $(this).closest('form').submit();
+            }
+        }
+    });
 });
