@@ -83,16 +83,16 @@ $rol = $_GET['rol'] ?? 'cliente';
 
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre del producto *</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            <input type="text" class="form-control" id="nombre" name="nombre">
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="precio" class="form-label">Precio *</label>
-                                    <input type="number" step="0.01" min="0" id="precio" name="precio" required>
+                                    <input type="number" step="0.01" id="precio" name="precio">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="cantidad" class="form-label">Cantidad *</label>
-                                    <input type="number" min="0" class="form-control" id="cantidad" name="cantidad" required>
+                                    <input type="number" class="form-control" id="cantidad" name="cantidad">
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -112,4 +112,7 @@ $rol = $_GET['rol'] ?? 'cliente';
      </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Validaciones de Javascrip -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="../assets/js/validaciones.js"></script>
 </body>
