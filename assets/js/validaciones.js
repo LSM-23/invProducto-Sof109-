@@ -53,8 +53,7 @@ $(document).ready(function() {
     // ---------------------------------------------------------
     $('.btn-editar').on('click', function() {
         
-        // $(this) es una herramienta de jQuery que se refiere exactamente al botón específico que el usuario acaba de presionar
-        // .data() es la función que lee la información invisible que guardamos en los atributos HTML
+        //Usamos this para obtener los datos del botón que se ha pulsado.
         let id = $(this).data('id');
         let nombre = $(this).data('nombre');
         let precio = $(this).data('precio');
@@ -68,6 +67,16 @@ $(document).ready(function() {
         $('#editarCantidad').val(cantidad);
         $('#editarDescripcion').val(descripcion);
     });
+
+    // --------------------------------
+    // EVENTO PARA ELIMINAR UN PRODUCTO
+    // --------------------------------
+
+    $('.btn-eliminar').on('click', function() {
+        let id = $(this).data('id');
+        $('#delete_id').val(id);
+    });
+
 
 
     //-----------------------------
