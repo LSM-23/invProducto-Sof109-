@@ -1,16 +1,23 @@
 <?php
+// views/dashboard.php
 session_start();
 
-// Si no existe la variable de sesión 'rol' (es decir, si alguien intenta entrar directo por la URL)
+// Verificamos si el usuario tiene sesión activa por seguridad
 if (!isset($_SESSION['rol'])) {
-    // Lo expulsamos de vuelta al login
     header('Location: ../index.php');
     exit;
 }
 
-// Leemos el rol y el nombre directamente desde la sesión segura
+//Variables de sesión
 $rol = $_SESSION['rol'];
 $nombreUsuario = $_SESSION['usuario'];
+
+//Traemos el modelo
+require_once '../models/Producto.php';
+
+//Creamos el objeto y pedimos los datos para mostrarlos en la tabla
+$productoModel = new Producto();
+$productos = $productoModel->leerTodos();
 ?>
 
 <!DOCTYPE html>

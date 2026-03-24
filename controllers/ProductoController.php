@@ -7,13 +7,12 @@ if (!isset($_SESSION['rol'])) {
     exit;
 }
 
-// 1. Traemos el modelo de la base de datos
 require_once '../models/Producto.php';
 
-// 2. Instanciamos el modelo para poder usar sus métodos *(funciones que pertenecen a una clase)*
+//Instanciamos el modelo para poder usar sus métodos
 $productoModel = new Producto();
 
-// Recibimos la acción desde la URL (ej: ?accion=editar). Si no hay, asumimos que es 'agregar'
+// Recibimos la acción desde la URL con agregar por defecto
 $accion = $_GET['accion'] ?? 'agregar';
 
 // Descubrimos si es editar buscando si existe id
@@ -48,7 +47,7 @@ if ($accion === 'agregar' || $accion === 'editar') {
     // --- CONEXIÓN CON LA BASE DE DATOS ---
     if ($accion === 'agregar') {
         
-        // Llamamos a la función crear() que nos devolverá un valor booleano *(un valor que solo puede ser verdadero o falso)*
+        // Llamamos a la función crear()
         $exito = $productoModel->crear($nombre, $precio, $cantidad, $descripcion);
         
         if ($exito) {
@@ -64,7 +63,7 @@ if ($accion === 'agregar' || $accion === 'editar') {
         if (empty($id)) {
             $_SESSION['mensaje_error'] = "Error: Faltan datos para identificar el producto a editar.";
         } else {
-            // Llamamos a la función actualizar() que usa el JOIN en MySQL
+            // Llamamos a la función actualizar()
             $exito = $productoModel->actualizar($id, $nombre, $precio, $cantidad, $descripcion);
             
             if ($exito) {

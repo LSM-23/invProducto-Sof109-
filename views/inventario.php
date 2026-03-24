@@ -35,26 +35,45 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Ejemplo de producto (reemplazar con datos reales de la base de datos) -->
-                        <tr>
-                            <td>1</td>
-                            <td>Laptop</td>
-                            <td>$1500.00</td>
-                            <td>10</td>
-                            <td>Laptop de alta gama</td>
-                            <?php if ($rol === 'admin'): ?>
-                                <td>
-                                <button class="btn btn-warning btn-sm btn-editar" data-bs-toggle="modal" data-bs-target="#modalEditarProducto"
-                                        data-id="1"
-                                        data-nombre="Laptop Gamer"
-                                        data-precio="1500.00"
-                                        data-cantidad="10"
-                                        data-descripcion="Laptop de alto rendimiento">
-                                Editar</button>
-                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminarProducto" data-id="1">Eliminar</button>
-                                </td>
-                            <?php endif; ?>
-                        </tr>
+                        <?php if (empty($productos)): ?>
+                            <tr>
+                                <td colspan="6" class="text-center">No hay productos en el inventario.</td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($productos as $producto): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($producto['product_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($producto['nombre']); ?></td>
+                                    
+                                    <td>$<?php echo number_format($producto['precio'], 2); ?></td>
+                                    
+                                    <td><?php echo htmlspecialchars($producto['cantidad']); ?></td>
+                                    <td><?php echo htmlspecialchars($producto['descripcion']); ?></td>
+                                    
+                                    <?php if ($rol === 'admin'): ?>
+                                        <td>
+                                            <button class="btn btn-warning btn-sm btn-editar" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#modalEditarProducto"
+                                                    data-id="<?php echo $producto['product_id']; ?>"
+                                                    data-nombre="<?php echo htmlspecialchars($producto['nombre']); ?>"
+                                                    data-precio="<?php echo $producto['precio']; ?>"
+                                                    data-cantidad="<?php echo $producto['cantidad']; ?>"
+                                                    data-descripcion="<?php echo htmlspecialchars($producto['descripcion']); ?>">
+                                                Editar
+                                            </button>
+                                            
+                                            <button class="btn btn-danger btn-sm btn-eliminar" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#modalEliminarProducto"
+                                                    data-id="<?php echo $producto['product_id']; ?>">
+                                                Eliminar
+                                            </button>
+                                        </td>
+                                    <?php endif; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
