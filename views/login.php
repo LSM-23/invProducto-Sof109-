@@ -26,6 +26,9 @@
                     <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                 </div>
             </form>
+            <div class="text-center mt-3">
+                <a href="../views/registro.php" class="btn btn-primary">Registrarse</a>
+            </div>
         </div>
     </div>
 
