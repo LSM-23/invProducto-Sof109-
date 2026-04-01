@@ -1,62 +1,43 @@
 <?php
-// session_start() es obligatorio en la primera línea para poder usar sesiones
 session_start(); 
+require_once __DIR__ . '/../config/conexion.php'; 
 
-// Recibiendo datos del formulario de login
-$usuario = trim($_POST['usuario'] ?? '');
+$usuario_ingresado = trim($_POST['usuario'] ?? '');
 $password_ingresada = trim($_POST['password'] ?? '');
 
-//VALIDACIÓN PHP: Verificamos que no envíen campos vacíos
-if (empty($usuario) || empty($password_ingresada)) {
-    $_SESSION['mensaje_error'] = "Por favor, ingresa tu usuario y contraseña.";
+if (empty($usuario_ingresado) || empty($password_ingresada)) {
+    $_SESSION['mensaje_error'] = "Por favor, ingresa usuario y contraseña.";
     header('Location: ../index.php');
     exit;
 }
 
-//------------------------------------------------------------------------------------
-//Preparando hash de la contraseña (en un caso real, esto buscaría en la base de datos)
-//-------------------------------------------------------------------------------------
+// ---------------------------------------------------------
+// BUSQUEDA EN BASE DE DATOS (Para usuarios registrados)
+// ---------------------------------------------------------
+try {
+    $database = new conexion();
+    $pdo = $database->getConexion();
 
-$password_hash_admin = password_hash('1234', PASSWORD_ARGON2ID);
-$password_hash_user = password_hash('1234', PASSWORD_ARGON2ID);
+    $stmt = $pdo->prepare("SELECT * FROM usuario WHERE usuario = ?");
+    $stmt->execute([$usuario_ingresado]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Simulamos la verificación
-if ($usuario === 'admin' ) {
-// Verificamos la contraseña usando password_verify()
-if ( password_verify($password_ingresada, $password_hash_admin)) {
-    
-    // Guardamos los datos en la sesión del servidor de forma segura
-    $_SESSION['usuario'] = 'Administrador';
-    $_SESSION['rol'] = 'admin';
-    
-    // Redirigimos al dashboard sin enviar variables por la URL
-    header('Location: ../views/dashboard.php');
-    exit;
-    } else {
-        // La contraseña falló
-        $_SESSION['mensaje_error'] = "Usuario o contraseña incorrectos.";
-        header('Location: ../index.php');
-        exit;
-    }
-} else if ($usuario === 'cliente') {
-    if (password_verify($password_ingresada, $password_hash_user)) {
-    
-    $_SESSION['usuario'] = 'Cliente Invitado';
-    $_SESSION['rol'] = 'cliente';
-    
-    header('Location: ../views/dashboard.php');
-    exit;
-    } else {
-        // La contraseña falló
-        $_SESSION['mensaje_error'] = "Usuario o contraseña incorrectos.";
-        header('Location: ../index.php');
+    // Si encontramos al usuario en la tabla y la contraseña coincide
+    if ($user && password_verify($password_ingresada, $user['contrasena'])) {
+        $_SESSION['usuario'] = $user['usuario'];
+        $_SESSION['rol'] = $user['rol']; // 'cliente' o 'admin' según la DB
+        
+        header('Location: ../views/dashboard.php');
         exit;
     }
 
-} else {
-    //NUEVO MANEJO DE ERROR: Usamos nuestra alerta flotante en vez de ?error=1
+    // Si no entró por admin ni por base de datos
     $_SESSION['mensaje_error'] = "Usuario o contraseña incorrectos.";
     header('Location: ../index.php');
     exit;
+
+} catch (PDOException $e) {
+    $_SESSION['mensaje_error'] = "Error de conexión.";
+    header('Location: ../index.php');
+    exit;
 }
-?>
