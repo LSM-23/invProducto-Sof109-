@@ -16,6 +16,8 @@ session_start();
         <div class="card-body p-4">
             <h3 class="text-center mb-4">Registro</h3>
 
+            <div id="errorModalRegistro" class="alert alert-danger d-none" role="alert"></div>
+
             <form action="../controllers/RegistroController.php" method="POST" id="registroForm">
                 <div class="mb-3">
                     <label for="usuario" class="form-label">Usuario</label>

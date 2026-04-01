@@ -97,11 +97,45 @@ $(document).ready(function() {
         }
     });
     //------------------------
-    // Validaciones del login
+    // Validaciones del Registro
     //------------------------
+    $('#registroForm').on('submit', function(evento) {
+        let usuario = $('#usuario').val().trim();
+        let password = $('#password').val().trim();
+        let $errorDiv = $('#errorModalRegistro');
+        
+        if (usuario === '') {
+            evento.preventDefault();
+            $errorDiv.text('Por favor, introduce un nombre de usuario.').removeClass('d-none');
+            return;
+        } else if (password === '') {
+            evento.preventDefault();
+            $errorDiv.text('Por favor, introduce una contraseña.').removeClass('d-none');
+            return;
+        }
+        $errorDiv.addClass('d-none');
+    });
+
+
     
     //-------------------------
     // Validaciones de Registro
     //-------------------------
+    $('#loginForm').on('submit', function(evento) {
+        let usuario = $('#usuario').val().trim();
+        let password = $('#password').val().trim();
+        let $errorDiv = $('#errorModalRegistro');
+        
+        if (usuario === '') {
+            evento.preventDefault();
+            $errorDiv.text('Por favor, introduce un nombre de usuario.').removeClass('d-none');
+            return;
+        } else if (password === '') {
+            evento.preventDefault();
+            $errorDiv.text('Por favor, introduce una contraseña.').removeClass('d-none');
+            return;
+        }
+        $errorDiv.addClass('d-none');
+    });
     
 });

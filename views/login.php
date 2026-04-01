@@ -13,6 +13,8 @@
         <div class="card-body p-4">
             <h3 class="text-center mb-4">Sistema de inventario</h3>
 
+            <div id="errorModalRegistro" class="alert alert-danger d-none" role="alert"></div>
+
             <form action="../controllers/LoginController.php" method="POST" id="loginForm">
                 <div class="mb-3">
                     <label for="usuario" class="form-label">Usuario</label>
