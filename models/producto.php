@@ -12,15 +12,19 @@ class Producto {
     // ----------------------------
     // CREAR: llenamos ambas tablas
     // ----------------------------
-    public function crear($nombre, $precio, $cantidad, $descripcion) {
+    public function crear($nombre, $precio, $cantidad, $descripcion, $imagen_url) {
         try {
+
+            // Si la URL está vacía, sera nula
+            $img = empty($imagen_url) ? null : $imagen_url;
+
             // Iniciamos la transacción (pausamos el autoguardado de MySQL)
             $this->conn->beginTransaction();
 
             // 1. Guardamos primero en la tabla Productos
-            $queryProducto = "INSERT INTO Productos (nombre, precio, descripcion) VALUES (?, ?, ?)";
+            $queryProducto = "INSERT INTO Productos (nombre, precio, descripcion, imagen_url) VALUES (?, ?, ?, ?)";
             $stmt1 = $this->conn->prepare($queryProducto);
-            $stmt1->execute([$nombre, $precio, $descripcion]);
+            $stmt1->execute([$nombre, $precio, $descripcion, $img]);
 
             // Obtenemos el ID que MySQL le acaba de asignar automáticamente a ese producto
             $nuevo_producto_id = $this->conn->lastInsertId();
@@ -46,7 +50,7 @@ class Producto {
     // ---------------------------------------------------
     public function leerTodos() {
         // Unimos Productos (p) con Inventario (i) basándonos en el product_id
-        $query = "SELECT p.product_id, p.nombre, p.precio, p.descripcion, i.cantidad 
+        $query = "SELECT p.product_id, p.nombre, p.precio, p.descripcion, p.imagen_url, i.cantidad 
                   FROM Productos p 
                   JOIN Inventario i ON p.product_id = i.product_id";
         
@@ -60,14 +64,16 @@ class Producto {
     // -----------------------------------------------------------------------------
     // ACTUALIZAR: Usamos un JOIN en el UPDATE para modificar ambas tablas a la vez
     // -----------------------------------------------------------------------------
-    public function actualizar($id, $nombre, $precio, $cantidad, $descripcion) {
+    public function actualizar($id, $nombre, $precio, $cantidad, $descripcion, $imagen_url) {
+        $img = empty($imagen_url) ? null : $imagen_url;
+
         $query = "UPDATE Productos p 
                   JOIN Inventario i ON p.product_id = i.product_id 
-                  SET p.nombre = ?, p.precio = ?, p.descripcion = ?, i.cantidad = ? 
+                  SET p.nombre = ?, p.precio = ?, p.descripcion = ?, i.cantidad = ?, p.imagen_url = ?
                   WHERE p.product_id = ?";
                   
         $stmt = $this->conn->prepare($query);
-        return $stmt->execute([$nombre, $precio, $descripcion, $cantidad, $id]);
+        return $stmt->execute([$nombre, $precio, $descripcion, $cantidad, $img, $id]);
     }
 
     // -------------------------------------------------------------------

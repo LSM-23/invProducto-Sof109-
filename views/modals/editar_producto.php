@@ -8,8 +8,9 @@
 
             <form action="../controllers/ProductoController.php?action=editar" method="POST" id="formEditarProducto">
                 <div class="modal-body">
-                    <!-- Aquí se mostrarán los errores de validación -->
+                    <!-- Mostrar los errores de validación -->
                     <div id="errorModalEditar" class="alert alert-danger d-none" role="alert"></div>
+                    <!-- Almacenar el ID y ocultarlo -->
                     <input type="hidden" id="editarId" name="id">
                     <!-- Campo para editar el nombre -->
                     <div class="mb-3">
@@ -31,6 +32,11 @@
                         <div class="mb-3">
                             <label for="editarDescripcion" class="form-label">Descripción</label>
                             <textarea class="form-control" id="editarDescripcion" name="descripcion" rows="3"></textarea>
+                        </div>
+                        <!-- Campo para editar imagen -->
+                         <div class="mb-3">
+                            <label for="edit_imagen_url" class="form-label">URL de la Imagen (Opcional)</label>
+                            <input type="url" class="form-control" id="edit_imagen_url" name="imagen_url">
                         </div>
                     </div>
                 </div>

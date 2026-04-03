@@ -7,6 +7,12 @@ if (!isset($_SESSION['rol'])) {
     exit;
 }
 
+// Verificamos que sea admin por seguridad
+if ($_SESSION['rol'] !== 'admin') {
+    header('Location: ../views/dashboard.php');
+    exit;
+}
+
 require_once '../models/Producto.php';
 
 //Instanciamos el modelo para poder usar sus métodos
@@ -30,6 +36,7 @@ if ($accion === 'agregar' || $accion === 'editar') {
     $precio = trim($_POST['precio'] ?? '');
     $cantidad = trim($_POST['cantidad'] ?? '');
     $descripcion = trim($_POST['descripcion'] ?? '');
+    $imagen_url = trim($_POST['imagen_url'] ?? '');
 
     // --- VALIDACIONES DE PHP ---
     if (empty($nombre) || $precio === '' || $cantidad === '') {
@@ -48,7 +55,7 @@ if ($accion === 'agregar' || $accion === 'editar') {
     if ($accion === 'agregar') {
         
         // Llamamos a la función crear()
-        $exito = $productoModel->crear($nombre, $precio, $cantidad, $descripcion);
+        $exito = $productoModel->crear($nombre, $precio, $cantidad, $descripcion, $imagen_url);
         
         if ($exito) {
             $_SESSION['mensaje_exito'] = "¡Producto registrado correctamente en ambas tablas!";
@@ -64,7 +71,7 @@ if ($accion === 'agregar' || $accion === 'editar') {
             $_SESSION['mensaje_error'] = "Error: Faltan datos para identificar el producto a editar.";
         } else {
             // Llamamos a la función actualizar()
-            $exito = $productoModel->actualizar($id, $nombre, $precio, $cantidad, $descripcion);
+            $exito = $productoModel->actualizar($id, $nombre, $precio, $cantidad, $descripcion, $imagen_url);
             
             if ($exito) {
                 $_SESSION['mensaje_exito'] = "¡Producto y cantidad actualizados correctamente!";

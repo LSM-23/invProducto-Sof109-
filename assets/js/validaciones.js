@@ -59,13 +59,15 @@ $(document).ready(function() {
         let precio = $(this).data('precio');
         let cantidad = $(this).data('cantidad');
         let descripcion = $(this).data('descripcion');
+        let imagen = $(this).data('imagen');
 
-        // Tomamos esa información y rellenamos (.val) los campos del modal de Editar
+        // Tomamos esa información y rellenamos los campos del modal de Editar
         $('#editarId').val(id);
         $('#editarNombre').val(nombre);
         $('#editarPrecio').val(precio);
         $('#editarCantidad').val(cantidad);
         $('#editarDescripcion').val(descripcion);
+        $('#edit_imagen_url').val(imagen);
     });
 
     // --------------------------------
