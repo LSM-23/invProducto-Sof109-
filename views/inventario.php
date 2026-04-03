@@ -9,6 +9,16 @@
         </div>
     </nav>
 
+    <!-- Buscador -->
+    <form method="GET" action="dashboard.php">
+    <div class="container mt-5">
+        <div class="input-group mb-3">
+            <input name="buscar" value="<?php echo isset($_GET['buscar']) ? htmlspecialchars($_GET['buscar']) : ''; ?>" type="text" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto" aria-describedby="basic-addon2">
+            <button class="btn btn-outline-secondary" type="submit" id="basic-addon2">Buscar</button>
+        </div>
+    </div>
+    </form>
+
     <!-- Contenido de la página -->
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">

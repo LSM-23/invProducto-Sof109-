@@ -49,6 +49,19 @@ class Producto {
     // LEER: Usamos JOIN para traer todo como una sola tabla
     // ---------------------------------------------------
     public function leerTodos() {
+        // Condicional del buscador
+        if (!empty($_GET['buscar'])) {
+            $buscar = $_GET['buscar'];
+            $query = "SELECT p.product_id, p.nombre, p.precio, p.descripcion, p.imagen_url, i.cantidad
+                  FROM Productos p 
+                  JOIN Inventario i ON p.product_id = i.product_id
+                  WHERE p.nombre LIKE ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute(["%$buscar%"]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
         // Unimos Productos (p) con Inventario (i) basándonos en el product_id
         $query = "SELECT p.product_id, p.nombre, p.precio, p.descripcion, p.imagen_url, i.cantidad 
                   FROM Productos p 
