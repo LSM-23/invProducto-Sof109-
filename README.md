@@ -43,8 +43,8 @@ Para el desarrollo y despliegue del sistema se utilizaron las siguientes herrami
     * Abre el Panel de Control de XAMPP e inicia **Apache** y **MySQL**.
     * Haz clic en "Admin" en la fila de MySQL para abrir **phpMyAdmin**.
     * Crea una base de datos nueva llamada `inventario_db`.
-    * Importa el archivo `inv.sql` incluido en el proyecto para crear las tablas y relaciones.
-3.  **Ejecutar:** Abre tu navegador y escribe `http://localhost/(nombre-de-tu-carpeta)/index.php`.
+    * Importa el archivo `inventario_db.sql` incluido en el proyecto para crear las tablas y relaciones.
+3.  **Ejecutar:** Abre tu navegador y escribe `http://localhost/(nombre-de-tu-carpeta-donde-almacenaste-el-proyecto)/index.php`.
 
 ### Opción 2: Usando PHP Server en VS Code
 1.  Abre la carpeta del proyecto en **Visual Studio Code**.
